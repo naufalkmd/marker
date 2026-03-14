@@ -2,6 +2,8 @@
 
 Marker converts documents to markdown, JSON, chunks, and HTML quickly and accurately.
 
+This fork is configured to publish separately as `marker-pdf-naufalkmd` while keeping the internal Python package name as `marker` so rebasing on upstream stays simple.
+
 - Converts PDF, image, PPTX, DOCX, XLSX, HTML, EPUB files in all languages
 - Formats tables, forms, equations, inline math, links, references, and code blocks
 - Extracts and saves images
@@ -64,17 +66,66 @@ The API:
 
 You'll need python 3.10+ and [PyTorch](https://pytorch.org/get-started/locally/).
 
+This fork is packaged independently from upstream:
+
+- Install `marker-pdf-naufalkmd` if you want this fork's released package.
+- Do not install upstream `marker-pdf` and this fork in the same virtual environment, since both provide the `marker` Python package and the same CLI commands.
+
 Install with:
 
 ```shell
-pip install marker-pdf
+pip install marker-pdf-naufalkmd
 ```
 
 If you want to use marker on documents other than PDFs, you will need to install additional dependencies with:
 
 ```shell
-pip install marker-pdf[full]
+pip install marker-pdf-naufalkmd[full]
 ```
+
+To install directly from this repository before publishing a new release:
+
+```shell
+pip install "marker-pdf-naufalkmd[full] @ git+https://github.com/naufalkmd/marker.git@master"
+```
+
+To keep this fork synced with upstream:
+
+```shell
+git remote add upstream https://github.com/VikParuchuri/marker.git
+git fetch upstream
+git rebase upstream/master
+```
+
+## Publishing this fork
+
+The GitHub Actions workflow in `.github/workflows/publish.yml` supports:
+
+- `workflow_dispatch` for manual TestPyPI or PyPI publishes
+- tag pushes like `v1.10.2.post1` for PyPI releases
+
+Before publishing, add these repository secrets:
+
+- `PYPI_API_TOKEN` for real PyPI releases
+- `TEST_PYPI_API_TOKEN` if you want to test uploads on TestPyPI first
+
+If `marker-pdf-naufalkmd` has never been published before, make sure the PyPI token you use is allowed to create a new project, not only upload to an existing one.
+
+Release flow:
+
+1. Update `version` in `pyproject.toml`.
+2. Commit and push your changes.
+3. For a TestPyPI dry run, open the Actions tab and run the `Publish package` workflow with `repository=testpypi`.
+4. For a real PyPI release, create and push a matching tag like `v1.10.2.post1`.
+
+Example:
+
+```shell
+git tag v1.10.2.post1
+git push origin v1.10.2.post1
+```
+
+The workflow will fail if the git tag does not exactly match the version in `pyproject.toml`.
 
 # Usage
 
@@ -506,7 +557,7 @@ We filter out tables that we cannot align with the ground truth, since fintabnet
 You can benchmark the performance of marker on your machine. Install marker manually with:
 
 ```shell
-git clone https://github.com/VikParuchuri/marker.git
+git clone https://github.com/naufalkmd/marker.git
 poetry install
 ```
 

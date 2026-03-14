@@ -1,11 +1,12 @@
 [tool.poetry]
-name = "marker-pdf"
-version = "1.10.2"
-description = "Convert documents to markdown with high speed and accuracy."
+name = "marker-pdf-naufalkmd"
+version = "1.10.2.post1"
+description = "A separately packaged fork of Marker for converting documents to markdown."
 authors = ["Vik Paruchuri <github@vikas.sh>"]
+maintainers = ["naufalkmd"]
 readme = "README.md"
 license = "GPL-3.0-or-later"
-repository = "https://github.com/VikParuchuri/marker"
+repository = "https://github.com/naufalkmd/marker"
 keywords = ["pdf", "markdown", "ocr", "nlp"]
 packages = [
     {include = "marker"}
