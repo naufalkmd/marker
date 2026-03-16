@@ -37,11 +37,11 @@ As you can see, the use_llm mode offers higher accuracy than marker or gemini al
 
 ## Examples
 
-| PDF | File type | Markdown                                                                                                                     | JSON                                                                                                   |
-|-----|-----------|------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| [Think Python](https://greenteapress.com/thinkpython/thinkpython.pdf) | Textbook | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/markdown/thinkpython/thinkpython.md)                 | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/json/thinkpython.json)         |
-| [Switch Transformers](https://arxiv.org/pdf/2101.03961.pdf) | arXiv paper | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/markdown/switch_transformers/switch_trans.md) | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/json/switch_trans.json) |
-| [Multi-column CNN](https://arxiv.org/pdf/1804.07821.pdf) | arXiv paper | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/markdown/multicolcnn/multicolcnn.md)                 | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/json/multicolcnn.json)         |
+| PDF                                                                | File type   | Markdown                                                                                                           | JSON                                                                                         |
+| ------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| [Think Python](https://greenteapress.com/thinkpython/thinkpython.pdf) | Textbook    | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/markdown/thinkpython/thinkpython.md)          | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/json/thinkpython.json)  |
+| [Switch Transformers](https://arxiv.org/pdf/2101.03961.pdf)           | arXiv paper | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/markdown/switch_transformers/switch_trans.md) | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/json/switch_trans.json) |
+| [Multi-column CNN](https://arxiv.org/pdf/1804.07821.pdf)              | arXiv paper | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/markdown/multicolcnn/multicolcnn.md)          | [View](https://github.com/VikParuchuri/marker/blob/master/data/examples/json/multicolcnn.json)  |
 
 # Commercial usage
 
@@ -52,6 +52,7 @@ Our model weights use a modified AI Pubs Open Rail-M license (free for research,
 There's a [hosted API](https://www.datalab.to?utm_source=gh-marker) and [painless on-prem solution](https://www.datalab.to/blog/self-serve-on-prem-licensing) for marker - it's free to sign up, and we'll throw in credits for you to test it out.
 
 The API:
+
 - Supports PDF, image, PPT, PPTX, DOC, DOCX, XLS, XLSX, HTML, EPUB files
 - Is 1/4th the price of leading cloud-based competitors
 - Fast - ~15s for a 250 page PDF
@@ -153,6 +154,7 @@ marker_single /path/to/file.pdf
 You can pass in PDFs or images.
 
 Options:
+
 - `--page_range TEXT`: Specify which pages to process. Accepts comma-separated page numbers and ranges. Example: `--page_range "0,5-10,20"` will process pages 0, 5 through 10, and page 20.
 - `--output_format [markdown|json|html|chunks]`: Specify the format for the output results.
 - `--output_dir PATH`: Directory where output files will be saved. Defaults to the value specified in settings.OUTPUT_DIR.
@@ -277,6 +279,7 @@ text, _, images = text_from_rendered(rendered)
 This takes all the same configuration as the PdfConverter.  You can specify the configuration `force_layout_block=Table` to avoid layout detection and instead assume every page is a table.  Set `output_format=json` to also get cell bounding boxes.
 
 You can also run this via the CLI with
+
 ```shell
 marker_single FILENAME --use_llm --force_layout_block Table --converter_cls marker.converters.table.TableConverter --output_format json
 ```
@@ -298,6 +301,7 @@ rendered = converter("FILEPATH")
 This takes all the same configuration as the PdfConverter.
 
 You can also run this via the CLI with
+
 ```shell
 marker_single FILENAME --converter_cls marker.converters.ocr.OCRConverter
 ```
@@ -504,7 +508,7 @@ Pass the `debug` option to activate debug mode.  This will save images of each p
 We created a [benchmark set](https://huggingface.co/datasets/datalab-to/marker_benchmark) by extracting single PDF pages from common crawl.  We scored based on a heuristic that aligns text with ground truth text segments, and an LLM as a judge scoring method.
 
 | Method     | Avg Time | Heuristic Score | LLM Score |
-|------------|----------|-----------------|-----------|
+| ---------- | -------- | --------------- | --------- |
 | marker     | 2.83837  | 95.6709         | 4.23916   |
 | llamaparse | 23.348   | 84.2442         | 3.97619   |
 | mathpix    | 6.36223  | 86.4281         | 4.15626   |
@@ -515,7 +519,7 @@ Benchmarks were run on an H100 for markjer and docling - llamaparse and mathpix 
 <img src="data/images/per_doc.png" width="1000px"/>
 
 | Document Type        | Marker heuristic | Marker LLM | Llamaparse Heuristic | Llamaparse LLM | Mathpix Heuristic | Mathpix LLM | Docling Heuristic | Docling LLM |
-|----------------------|------------------|------------|----------------------|----------------|-------------------|-------------|-------------------|-------------|
+| -------------------- | ---------------- | ---------- | -------------------- | -------------- | ----------------- | ----------- | ----------------- | ----------- |
 | Scientific paper     | 96.6737          | 4.34899    | 87.1651              | 3.96421        | 91.2267           | 4.46861     | 92.135            | 3.72422     |
 | Book page            | 97.1846          | 4.16168    | 90.9532              | 4.07186        | 93.8886           | 4.35329     | 90.0556           | 3.64671     |
 | Other                | 95.1632          | 4.25076    | 81.1385              | 4.01835        | 79.6231           | 4.00306     | 83.8223           | 3.76147     |
@@ -532,9 +536,9 @@ Benchmarks were run on an H100 for markjer and docling - llamaparse and mathpix 
 
 We benchmarked throughput using a [single long PDF](https://www.greenteapress.com/thinkpython/thinkpython.pdf).
 
-| Method  | Time per page | Time per document | VRAM used |
-|---------|---------------|-------------------|---------- |
-| marker  | 0.18          | 43.42             |  3.17GB   |
+| Method | Time per page | Time per document | VRAM used |
+| ------ | ------------- | ----------------- | --------- |
+| marker | 0.18          | 43.42             | 3.17GB    |
 
 The projected throughput is 122 pages per second on an H100 - we can run 22 individual processes given the VRAM used.
 
@@ -543,7 +547,7 @@ The projected throughput is 122 pages per second on an H100 - we can run 22 indi
 Marker can extract tables from PDFs using `marker.converters.table.TableConverter`. The table extraction performance is measured by comparing the extracted HTML representation of tables against the original HTML representations using the test split of [FinTabNet](https://developer.ibm.com/exchanges/data/all/fintabnet/). The HTML representations are compared using a tree edit distance based metric to judge both structure and content. Marker detects and identifies the structure of all tables in a PDF page and achieves these scores:
 
 | Method           | Avg score | Total tables |
-|------------------|-----------|--------------|
+| ---------------- | --------- | ------------ |
 | marker           | 0.816     | 99           |
 | marker w/use_llm | 0.907     | 99           |
 | gemini           | 0.829     | 99           |
@@ -577,6 +581,7 @@ Options:
 - `--scores` which scoring functions to use, can be `llm`, `heuristic`.  Comma separated.
 
 ### Table Conversion
+
 The processed FinTabNet dataset is hosted [here](https://huggingface.co/datasets/datalab-to/fintabnet-test) and is automatically downloaded. Run the benchmark with:
 
 ```shell
@@ -612,6 +617,7 @@ Note: Passing the `--use_llm` and `--force_ocr` flags will mostly solve these is
 # Usage and Deployment Examples
 
 You can always run `marker` locally, but if you wanted to expose it as an API, we have a few options:
+
 - Our platform API which is powered by `marker` and `surya` and is easy to test out - it's free to sign up, and we'll include credits, [try it out here](https://datalab.to)
 - Our painless on-prem solution for commercial use, which you can [read about here](https://www.datalab.to/blog/self-serve-on-prem-licensing) and gives you privacy guarantees with high throughput inference optimizations.
 - [Deployment example with Modal](./examples/README_MODAL.md) that shows you how to deploy and access `marker` through a web endpoint using [`Modal`](https://modal.com). Modal is an AI compute platform that enables developers to deploy and scale models on GPUs in minutes.
