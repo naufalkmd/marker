@@ -79,6 +79,18 @@ pipx install marker-pdf-naufalkmd
 marker --help
 ```
 
+On Windows, if `pipx` or `marker` still are not recognized, run the bootstrap script from the repo root. It installs `pipx` if needed, repairs the relevant user `PATH` entries, installs marker, and prints the resolved `marker.exe` location:
+
+```powershell
+.\install_windows.ps1
+```
+
+Or use the Command Prompt wrapper:
+
+```shell
+install_windows.cmd
+```
+
 If you want to use marker on documents other than PDFs, install the full extras:
 
 ```shell
