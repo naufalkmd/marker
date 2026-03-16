@@ -72,23 +72,49 @@ This fork is packaged independently from upstream:
 - Install `marker-pdf-naufalkmd` if you want this fork's released package.
 - Do not install upstream `marker-pdf` and this fork in the same virtual environment, since both provide the `marker` Python package and the same CLI commands.
 
-Install with:
+Install with `pipx` if you want the `marker` command available right away:
+
+```shell
+pipx install marker-pdf-naufalkmd
+marker --help
+```
+
+If you want to use marker on documents other than PDFs, install the full extras:
+
+```shell
+pipx install "marker-pdf-naufalkmd[full]"
+marker --help
+```
+
+If you prefer to install into an existing Python environment with `pip`, you can still do that:
 
 ```shell
 pip install marker-pdf-naufalkmd
 ```
 
-If you want to use marker on documents other than PDFs, you will need to install additional dependencies with:
+To install directly from this repository before publishing a new release:
 
 ```shell
-pip install marker-pdf-naufalkmd[full]
+pipx install "marker-pdf-naufalkmd[full] @ git+https://github.com/naufalkmd/marker.git@master"
 ```
 
-To install directly from this repository before publishing a new release:
+Or with `pip` inside an existing environment:
 
 ```shell
 pip install "marker-pdf-naufalkmd[full] @ git+https://github.com/naufalkmd/marker.git@master"
 ```
+
+### Fallback when `pip install` does not expose `marker` on PATH
+
+If your environment does not expose the generated `marker` executables on `PATH`, you can run the CLI directly through Python:
+
+```shell
+python -m marker --help
+python -m marker /path/to/input/folder --output_dir /path/to/output/folder --output_format markdown
+python -m marker single /path/to/file.pdf --output_dir /path/to/output/folder
+```
+
+The console scripts `marker`, `marker_single`, `marker_gui`, and `marker_server` still work if your Python installation adds its scripts directory to `PATH`.
 
 To keep this fork synced with upstream:
 
@@ -141,9 +167,11 @@ First, some configuration:
 I've included a streamlit app that lets you interactively try marker with some basic options.  Run it with:
 
 ```shell
-pip install streamlit streamlit-ace
+pipx inject marker-pdf-naufalkmd streamlit streamlit-ace
 marker_gui
 ```
+
+If you installed marker with `pip` instead of `pipx`, use `pip install streamlit streamlit-ace`.
 
 ## Convert a single file
 
@@ -151,7 +179,7 @@ marker_gui
 marker_single /path/to/file.pdf
 ```
 
-You can pass in PDFs or images.
+You can pass in PDFs or images.  If you installed with `pip` and your scripts directory is not on `PATH`, `python -m marker single /path/to/file.pdf` works too.
 
 Options:
 
@@ -182,6 +210,7 @@ marker /path/to/input/folder
 ```
 
 - `marker` supports all the same options from `marker_single` above.
+- If you installed with `pip` and your scripts directory is not on `PATH`, `python -m marker /path/to/input/folder` works too.
 - `--workers` is the number of conversion workers to run simultaneously.  This is automatically set by default, but you can increase it to increase throughput, at the cost of more CPU/GPU usage.  Marker will use 5GB of VRAM per worker at the peak, and 3.5GB average.
 
 ## Convert multiple files on multiple GPUs
@@ -466,9 +495,11 @@ Processors and renderers can be directly passed into the base `PDFConverter`, so
 There is a very simple API server you can run like this:
 
 ```shell
-pip install -U uvicorn fastapi python-multipart
+pipx inject marker-pdf-naufalkmd uvicorn fastapi python-multipart
 marker_server --port 8001
 ```
+
+If you installed marker with `pip` instead of `pipx`, use `pip install -U uvicorn fastapi python-multipart`.
 
 This will start a fastapi server that you can access at `localhost:8001`.  You can go to `localhost:8001/docs` to see the endpoint options.
 
