@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$PackageSpec = "marker-pdf-naufalkmd[full]",
+    [string]$PackageSpec = "marker-vN[full]",
     [switch]$SkipInstall,
     [switch]$DryRun
 )
@@ -8,6 +8,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $pipxBinDir = if ($env:PIPX_BIN_DIR) { $env:PIPX_BIN_DIR } else { Join-Path $env:USERPROFILE ".local\bin" }
+$MarkerCliName = "marker-vN"
 
 function Write-Step {
     param([string]$Message)
@@ -174,12 +175,12 @@ function Install-MarkerWithPipx {
 }
 
 function Resolve-MarkerPath {
-    $markerPath = Get-ExecutablePath -Name "marker"
+    $markerPath = Get-ExecutablePath -Name $MarkerCliName
     if ($markerPath) {
         return $markerPath
     }
 
-    $candidate = Join-Path $pipxBinDir "marker.exe"
+    $candidate = Join-Path $pipxBinDir "${MarkerCliName}.exe"
     if (Test-Path $candidate) {
         return $candidate
     }
@@ -194,9 +195,9 @@ Install-MarkerWithPipx -PipxPath $pipxPath
 
 $markerPath = Resolve-MarkerPath
 if ($markerPath) {
-    Write-Step "marker is available at $markerPath"
+    Write-Step "$MarkerCliName is available at $markerPath"
     Write-Host "Open a new PowerShell window, or run:"
     Write-Host "  & `"$markerPath`" --help"
 } else {
-    Write-Warning "marker.exe was not found yet. Open a new PowerShell window and run `marker --help`, or rerun this script with -DryRun to inspect the paths."
+    Write-Warning "${MarkerCliName}.exe was not found yet. Open a new PowerShell window and run $MarkerCliName --help, or rerun this script with -DryRun to inspect the paths."
 }

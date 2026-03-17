@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "marker-pdf-naufalkmd"
+name = "marker-vN"
 version = "1.10.2.post1"
-description = "A separately packaged fork of Marker for converting documents to markdown."
+description = "A separately packaged Marker fork published as marker-vN for converting documents to markdown."
 authors = ["Vik Paruchuri <github@vikas.sh>"]
 maintainers = ["naufalkmd"]
 readme = "README.md"
@@ -34,6 +34,7 @@ markdownify = "^1.1.0"
 click = "^8.2.0"
 markdown2 = "^2.5.2"
 filetype = "^1.2.0"
+psutil = "^7.0.0"
 google-genai = "^1.0.0"
 anthropic = "^0.46.0"
 pre-commit = "^4.2.0"
@@ -67,12 +68,12 @@ playwright = "^1.49.1"
 full = ["mammoth", "openpyxl", "python-pptx", "ebooklib", "weasyprint"]
 
 [tool.poetry.scripts]
-marker = "marker.scripts.convert:convert_cli"
-marker_single = "marker.scripts.convert_single:convert_single_cli"
-marker_chunk_convert = "marker.scripts.chunk_convert:chunk_convert_cli"
-marker_gui = "marker.scripts.run_streamlit_app:streamlit_app_cli"
-marker_extract = "marker.scripts.run_streamlit_app:extraction_app_cli"
-marker_server = "marker.scripts.server:server_cli"
+marker-vN = "marker.scripts.convert:convert_cli"
+marker-vN-single = "marker.scripts.convert_single:convert_single_cli"
+marker-vN-chunk-convert = "marker.scripts.chunk_convert:chunk_convert_cli"
+marker-vN-gui = "marker.scripts.run_streamlit_app:streamlit_app_cli"
+marker-vN-extract = "marker.scripts.run_streamlit_app:extraction_app_cli"
+marker-vN-server = "marker.scripts.server:server_cli"
 
 [build-system]
 requires = ["poetry-core"]

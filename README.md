@@ -2,7 +2,7 @@
 
 Marker converts documents to markdown, JSON, chunks, and HTML quickly and accurately.
 
-This fork is configured to publish separately as `marker-pdf-naufalkmd` while keeping the internal Python package name as `marker` so rebasing on upstream stays simple.
+This fork is configured to publish separately as `marker-vN` while keeping the internal Python package name as `marker` so rebasing on upstream stays simple.
 
 - Converts PDF, image, PPTX, DOCX, XLSX, HTML, EPUB files in all languages
 - Formats tables, forms, equations, inline math, links, references, and code blocks
@@ -69,17 +69,17 @@ You'll need python 3.10+ and [PyTorch](https://pytorch.org/get-started/locally/)
 
 This fork is packaged independently from upstream:
 
-- Install `marker-pdf-naufalkmd` if you want this fork's released package.
-- Do not install upstream `marker-pdf` and this fork in the same virtual environment, since both provide the `marker` Python package and the same CLI commands.
+- Install `marker-vN` if you want this fork's released package.
+- Do not install upstream `marker-pdf` and this fork in the same virtual environment, since both provide the `marker` Python package.
 
-Install with `pipx` if you want the `marker` command available right away:
+Install with `pipx` if you want the `marker-vN` command available right away:
 
 ```shell
-pipx install marker-pdf-naufalkmd
-marker --help
+pipx install marker-vN
+marker-vN --help
 ```
 
-On Windows, if `pipx` or `marker` still are not recognized, run the bootstrap script from the repo root. It installs `pipx` if needed, repairs the relevant user `PATH` entries, installs marker, and prints the resolved `marker.exe` location:
+On Windows, if `pipx` or `marker-vN` still are not recognized, run the bootstrap script from the repo root. It installs `pipx` if needed, repairs the relevant user `PATH` entries, installs marker-vN, and prints the resolved `marker-vN.exe` location:
 
 ```powershell
 .\install_windows.ps1
@@ -94,31 +94,31 @@ install_windows.cmd
 If you want to use marker on documents other than PDFs, install the full extras:
 
 ```shell
-pipx install "marker-pdf-naufalkmd[full]"
-marker --help
+pipx install "marker-vN[full]"
+marker-vN --help
 ```
 
 If you prefer to install into an existing Python environment with `pip`, you can still do that:
 
 ```shell
-pip install marker-pdf-naufalkmd
+pip install marker-vN
 ```
 
 To install directly from this repository before publishing a new release:
 
 ```shell
-pipx install "marker-pdf-naufalkmd[full] @ git+https://github.com/naufalkmd/marker.git@master"
+pipx install "marker-vN[full] @ git+https://github.com/naufalkmd/marker.git@master"
 ```
 
 Or with `pip` inside an existing environment:
 
 ```shell
-pip install "marker-pdf-naufalkmd[full] @ git+https://github.com/naufalkmd/marker.git@master"
+pip install "marker-vN[full] @ git+https://github.com/naufalkmd/marker.git@master"
 ```
 
-### Fallback when `pip install` does not expose `marker` on PATH
+### Fallback when `pip install` does not expose `marker-vN` on PATH
 
-If your environment does not expose the generated `marker` executables on `PATH`, you can run the CLI directly through Python:
+If your environment does not expose the generated `marker-vN` executables on `PATH`, you can run the CLI directly through Python:
 
 ```shell
 python -m marker --help
@@ -126,7 +126,7 @@ python -m marker /path/to/input/folder --output_dir /path/to/output/folder --out
 python -m marker single /path/to/file.pdf --output_dir /path/to/output/folder
 ```
 
-The console scripts `marker`, `marker_single`, `marker_gui`, and `marker_server` still work if your Python installation adds its scripts directory to `PATH`.
+The console scripts `marker-vN`, `marker-vN-single`, `marker-vN-gui`, and `marker-vN-server` work if your Python installation adds its scripts directory to `PATH`.
 
 To keep this fork synced with upstream:
 
@@ -148,7 +148,7 @@ Before publishing, add these repository secrets:
 - `PYPI_API_TOKEN` for real PyPI releases
 - `TEST_PYPI_API_TOKEN` if you want to test uploads on TestPyPI first
 
-If `marker-pdf-naufalkmd` has never been published before, make sure the PyPI token you use is allowed to create a new project, not only upload to an existing one.
+If `marker-vN` has never been published before, make sure the PyPI token you use is allowed to create a new project, not only upload to an existing one.
 
 Release flow:
 
@@ -179,8 +179,8 @@ First, some configuration:
 I've included a streamlit app that lets you interactively try marker with some basic options.  Run it with:
 
 ```shell
-pipx inject marker-pdf-naufalkmd streamlit streamlit-ace
-marker_gui
+pipx inject marker-vN streamlit streamlit-ace
+marker-vN-gui
 ```
 
 If you installed marker with `pip` instead of `pipx`, use `pip install streamlit streamlit-ace`.
@@ -188,7 +188,7 @@ If you installed marker with `pip` instead of `pipx`, use `pip install streamlit
 ## Convert a single file
 
 ```shell
-marker_single /path/to/file.pdf
+marker-vN-single /path/to/file.pdf
 ```
 
 You can pass in PDFs or images.  If you installed with `pip` and your scripts directory is not on `PATH`, `python -m marker single /path/to/file.pdf` works too.
@@ -218,17 +218,17 @@ The list of supported languages for surya OCR is [here](https://github.com/VikPa
 ## Convert multiple files
 
 ```shell
-marker /path/to/input/folder
+marker-vN /path/to/input/folder
 ```
 
-- `marker` supports all the same options from `marker_single` above.
+- `marker-vN` supports all the same options from `marker-vN-single` above.
 - If you installed with `pip` and your scripts directory is not on `PATH`, `python -m marker /path/to/input/folder` works too.
 - `--workers` is the number of conversion workers to run simultaneously.  This is automatically set by default, but you can increase it to increase throughput, at the cost of more CPU/GPU usage.  Marker will use 5GB of VRAM per worker at the peak, and 3.5GB average.
 
 ## Convert multiple files on multiple GPUs
 
 ```shell
-NUM_DEVICES=4 NUM_WORKERS=15 marker_chunk_convert ../pdf_in ../md_out
+NUM_DEVICES=4 NUM_WORKERS=15 marker-vN-chunk-convert ../pdf_in ../md_out
 ```
 
 - `NUM_DEVICES` is the number of GPUs to use.  Should be `2` or greater.
@@ -254,7 +254,7 @@ text, _, images = text_from_rendered(rendered)
 
 ### Custom configuration
 
-You can pass configuration using the `ConfigParser`.  To see all available options, do `marker_single --help`.
+You can pass configuration using the `ConfigParser`.  To see all available options, do `marker-vN-single --help`.
 
 ```python
 from marker.converters.pdf import PdfConverter
@@ -322,7 +322,7 @@ This takes all the same configuration as the PdfConverter.  You can specify the 
 You can also run this via the CLI with
 
 ```shell
-marker_single FILENAME --use_llm --force_layout_block Table --converter_cls marker.converters.table.TableConverter --output_format json
+marker-vN-single FILENAME --use_llm --force_layout_block Table --converter_cls marker.converters.table.TableConverter --output_format json
 ```
 
 ### OCR Only
@@ -344,7 +344,7 @@ This takes all the same configuration as the PdfConverter.
 You can also run this via the CLI with
 
 ```shell
-marker_single FILENAME --converter_cls marker.converters.ocr.OCRConverter
+marker-vN-single FILENAME --converter_cls marker.converters.ocr.OCRConverter
 ```
 
 ### Structured Extraction (beta)
@@ -507,8 +507,8 @@ Processors and renderers can be directly passed into the base `PDFConverter`, so
 There is a very simple API server you can run like this:
 
 ```shell
-pipx inject marker-pdf-naufalkmd uvicorn fastapi python-multipart
-marker_server --port 8001
+pipx inject marker-vN uvicorn fastapi python-multipart
+marker-vN-server --port 8001
 ```
 
 If you installed marker with `pip` instead of `pipx`, use `pip install -U uvicorn fastapi python-multipart`.
